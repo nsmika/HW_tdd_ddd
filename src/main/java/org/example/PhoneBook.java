@@ -5,8 +5,11 @@ import java.util.Map;
 
 public class PhoneBook {
 
-    private Map<String, String> contacts = new HashMap<>();
+    private static Map<String, String> contacts = new HashMap<>();
     public static int add(String name, String number) {
-        return 0;
+        if (!contacts.containsKey(name)) {
+            contacts.put(name, number);
+        }
+        return contacts.size();
     }
 }

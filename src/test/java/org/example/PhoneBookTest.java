@@ -10,5 +10,6 @@ class PhoneBookTest {
     void testAdd() {
         PhoneBook phoneBook = new PhoneBook();
         assertEquals(1, phoneBook.add("Dolg", "88005553535"));
+        assertEquals(2, phoneBook.add("Bank", "900"));
     }
 }
