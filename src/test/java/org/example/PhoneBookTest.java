@@ -1,17 +1,27 @@
 package org.example;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PhoneBookTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+
+    @BeforeEach
+    public void setUp() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    public void tearDown() {
+        System.setOut(originalOut);
+    }
 
     @Test
     void testAdd() {
@@ -41,7 +51,14 @@ class PhoneBookTest {
         phoneBook.add("Bank", "900");
         phoneBook.printAllNames();
 
-        String expectedOutput = "Dolg\nBank";
-        assertEquals(expectedOutput, outContent.toString());
+        String actualOutput = outContent.toString().trim();
+        String expectedOutput = String.join(System.lineSeparator(), "Bank", "Dolg");
+
+        if (!expectedOutput.equals(actualOutput)) {
+            System.out.println("Expected: [" + expectedOutput + "]");
+            System.out.println("Actual: [" + actualOutput + "]");
+        }
+
+        assertEquals(expectedOutput, actualOutput);
     }
 }
